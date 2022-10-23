@@ -59,10 +59,14 @@ public class WeatherActivity extends AppCompatActivity {
                     humidityText.setText("Humidity" + " " + response.body().getMain().getHumidity() + "%");
                 } catch (Exception e) {
                     e.printStackTrace();
+                    tempText.setText("Please type the valid name of the city");
+                    descText.setText("Pressure : N/A");
+                    humidityText.setText("Humidity: N/A");
                 }
             }
             @Override
             public void onFailure(Call<JsonResponded> call, Throwable t) {
+
             }
         });
 
