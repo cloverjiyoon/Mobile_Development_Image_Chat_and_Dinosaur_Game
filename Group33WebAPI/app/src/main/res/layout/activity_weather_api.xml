@@ -53,7 +53,7 @@
             android:layout_height="wrap_content"
             android:text="Type City Name"
             android:textColor="#fff"
-            android:textSize="50dp" />
+            android:textSize="35dp" />
 
 
         <TextView
@@ -62,7 +62,7 @@
             android:layout_height="wrap_content"
             android:text="Text Temp"
             android:textColor="@color/black"
-            android:textSize="50dp" />
+            android:textSize="35dp" />
 
         <TextView
             android:id="@+id/descText"
@@ -87,27 +87,20 @@
             android:layout_height="wrap_content"
             android:text="Cloud Level"
             android:textColor="#FFFF00"
-            android:padding="10dp"
-            android:layout_marginTop="30dp"
-            android:layout_marginBottom="30dp"
-            android:textSize="35dp" />
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_marginTop="0dp"
+            android:layout_marginBottom="0dp"
+            android:textSize="25dp" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerview"
-            android:layout_width="375dp"
-            android:layout_height="170dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="1.0"/>
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <ProgressBar
             android:id="@+id/progressBar"
