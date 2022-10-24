@@ -1,17 +1,22 @@
 package edu.northeastern.group33webapi;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import edu.northeastern.group33webapi.Retrofit.ApiClient;
 import edu.northeastern.group33webapi.Retrofit.HttpService;
@@ -21,6 +26,8 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import android.os.Handler;
+import android.widget.Toast;
+
 import edu.northeastern.group33webapi.Retrofit.LoadingDialog;
 
 
@@ -32,10 +39,26 @@ public class WeatherActivity extends AppCompatActivity {
     EditText textField;
     int imgID;
 
+    // Clover
+    RecyclerView recyclerView;
+    ProgressBar progressBar;
+    LinearLayoutManager layoutManager;
+    LinkAdapter adapter;
+    List<Cloud> postList = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_weather_api);
+
+        // Recycler View
+        recyclerView = findViewById(R.id.recyclerview);
+        progressBar = findViewById(R.id.progressBar);
+        layoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
+        adapter = new LinkAdapter(postList);
+        recyclerView.setAdapter(adapter);
+
 
         search = findViewById(R.id.search);
         weatherText = findViewById(R.id.weatherText);
@@ -61,6 +84,7 @@ public class WeatherActivity extends AppCompatActivity {
                 },500);
 
                 getWeatherData(textField.getText().toString().trim());
+                fetchPosts(textField.getText().toString().trim());
 
             }
         });
@@ -104,11 +128,39 @@ public class WeatherActivity extends AppCompatActivity {
             }
             @Override
             public void onFailure(Call<JsonResponded> call, Throwable t) {
+                Toast.makeText(WeatherActivity.this, "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+    }
+
+    private void fetchPosts(String name) {
+        progressBar.setVisibility(View.VISIBLE);
+        RetrofitClient.getRetrofitClient().getListData(name).enqueue(new Callback <ExampleList>() {
+            @Override
+            public void onResponse(Call <ExampleList> call, Response <ExampleList> response) {
+                if(response.isSuccessful() && response.body() != null){
+                    ExampleList temp = response.body();
+                    List<Example> tempList = temp.getExamples();
+                    for(int i = 0; i < tempList.size(); i++){
+                        postList.add(new Cloud(tempList.get(i).getCloud().getCloudlevel()));
+                    }
+
+                    adapter.notifyDataSetChanged();
+                    progressBar.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void onFailure(Call <ExampleList> call, Throwable t) {
+                progressBar.setVisibility(View.GONE);
+                Toast.makeText(WeatherActivity.this, "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
 
             }
         });
 
     }
+
 
     @Override
     public void onBackPressed() {

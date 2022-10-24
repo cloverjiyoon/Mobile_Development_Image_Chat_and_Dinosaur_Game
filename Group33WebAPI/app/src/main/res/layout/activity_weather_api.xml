@@ -51,9 +51,9 @@
             android:id="@+id/weatherText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Weather Text"
+            android:text="Type City Name"
             android:textColor="#fff"
-            android:textSize="50dp" />
+            android:textSize="35dp" />
 
 
         <TextView
@@ -61,15 +61,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Text Temp"
-            android:textColor="#fff"
-            android:textSize="50dp" />
+            android:textColor="@color/black"
+            android:textSize="35dp" />
 
         <TextView
             android:id="@+id/descText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Description"
-            android:textColor="#fff"
+            android:textColor="@color/black"
             android:textSize="20dp" />
 
 
@@ -78,8 +78,36 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Humidity"
-            android:textColor="#fff"
+            android:textColor="@color/black"
             android:textSize="20dp" />
+
+        <TextView
+            android:id="@+id/justText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Cloud Level"
+            android:textColor="#FFFF00"
+            android:layout_marginTop="0dp"
+            android:layout_marginBottom="0dp"
+            android:textSize="25dp" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="1.0"/>
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:visibility="gone"/>
 
 
     </LinearLayout>
