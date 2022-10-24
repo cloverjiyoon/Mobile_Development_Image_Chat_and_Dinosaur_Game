@@ -51,7 +51,7 @@
             android:id="@+id/weatherText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Weather Text"
+            android:text="Type City Name"
             android:textColor="#fff"
             android:textSize="50dp" />
 
@@ -86,7 +86,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Cloud Level"
-            android:textColor="@color/purple_500"
+            android:textColor="#FFFF00"
             android:padding="10dp"
             android:layout_marginTop="30dp"
             android:layout_marginBottom="30dp"
