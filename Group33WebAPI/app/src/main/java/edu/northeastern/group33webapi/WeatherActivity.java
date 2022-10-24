@@ -20,6 +20,11 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import android.os.Handler;
+import edu.northeastern.group33webapi.Retrofit.LoadingDialog;
+
+
+
 public class WeatherActivity extends AppCompatActivity {
 
     ImageView search;
@@ -38,6 +43,7 @@ public class WeatherActivity extends AppCompatActivity {
         descText = findViewById(R.id.descText);
         humidityText = findViewById(R.id.humidityText);
         textField = findViewById(R.id.textField);
+        LoadingDialog loadingDialog = new LoadingDialog(WeatherActivity.this);
 
 
         search.setOnClickListener(new View.OnClickListener() {
@@ -45,6 +51,15 @@ public class WeatherActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 // Call API
+                loadingDialog.startLoadingDialog();
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        loadingDialog.dismissDialog();
+                    }
+                },500);
+
                 getWeatherData(textField.getText().toString().trim());
 
             }
