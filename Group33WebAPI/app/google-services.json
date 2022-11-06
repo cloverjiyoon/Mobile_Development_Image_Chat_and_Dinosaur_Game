@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "569722328298",
+    "project_id": "stickersender-43a23",
+    "storage_bucket": "stickersender-43a23.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:569722328298:android:0b0044e7683a0b5d3e7393",
+        "android_client_info": {
+          "package_name": "edu.northeastern.group33webapi"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "569722328298-9hhq6urofijr2tj3kj24ko2ngv6jpphp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAkOUBnvxa-t3RecYWLodgjFjLMZyIDT_o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "569722328298-9hhq6urofijr2tj3kj24ko2ngv6jpphp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
