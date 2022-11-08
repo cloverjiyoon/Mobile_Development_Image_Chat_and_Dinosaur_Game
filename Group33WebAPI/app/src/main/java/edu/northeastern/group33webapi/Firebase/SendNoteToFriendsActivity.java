@@ -107,7 +107,10 @@ public class SendNoteToFriendsActivity extends AppCompatActivity {
     }
 
     private void displayCount() {
-
+        for (ImageView imageView : imageViewToTextViewMap.keySet()) {
+            TextView textView = imageViewToTextViewMap.get(imageView);
+            textView.setText("Times sent: " + imageViewSentCountMap.get(imageView));
+        }
     }
 
     private void syncImageViewSentCountWithDB() {
@@ -208,9 +211,153 @@ public class SendNoteToFriendsActivity extends AppCompatActivity {
 
 
     public void createNotificationChannel() {
+        // This must be called early because it must be called before a notification is sent.
+        // Create the NotificationChannel, but only on API 26+ because
+        // the NotificationChannel class is new and not in the support library
+        CharSequence name = getString(R.string.channel_name);
+        String description = getString(R.string.channel_description);
+        int importance = NotificationManager.IMPORTANCE_DEFAULT;
+        NotificationChannel channel = new NotificationChannel(getString(R.string.channel_id), name, importance);
+        channel.setDescription(description);
+        // Register the channel with the system; you can't change the importance
+        // or other notification behaviors after this
+        NotificationManager notificationManager = getSystemService(NotificationManager.class);
+        notificationManager.createNotificationChannel(channel);
+    }
+
+    public void onHistoryButtonPressed(View v) {
+        Intent intent = new Intent(this, NoteReceivedHistoryActivity.class);
+        intent.putExtra("user_name", myName);
+        startActivity(intent);
+    }
+
+    public void onSubmitButtonPressed(View v) {
+        String selectedUsername = allFriends.getSelectedItem().toString();
+        int selectedImageId = getCurrentSelectedId();
+        if (selectedImageId == -1) {
+            Context context = getApplicationContext();
+            CharSequence text = "no note is selected for" + selectedUsername;
+            int duration = Toast.LENGTH_SHORT;
+            Toast toast = Toast.makeText(context, text, duration);
+            toast.show();
+            return;
+        }
+        Note note = new Note(selectedImageId, myName, selectedUsername, start());
+
+        // Bitmap icon = BitmapFactory.decodeResource(this.getResources(), R.drawable.bean_stew);
+        myDataBase.child("note").child(note.getKey()).setValue(note).addOnSuccessListener(
+                (task) -> {
+                    Context context_success = getApplicationContext();
+                    CharSequence text_success = "note successfully send to " + selectedUsername;
+                    int duration = Toast.LENGTH_SHORT;
+                    Toast toast = Toast.makeText(context_success, text_success, duration);
+                    toast.show();
+
+                    ImageView imageViewById = getImageViewById(selectedImageId);
+                    if (imageViewById == null) {
+                        Log.e("UI", "ID not supported in this app version...");
+                        return;
+                    }
+                    imageViewSentCountMap.merge(getImageViewById(selectedImageId), 1, Integer::sum);
+                    displayCount();
+                });
+        myDataBase.child("users").child(userNameToUserIdMap.get(selectedUsername)).get().addOnCompleteListener((task) -> {
+            HashMap tempMap = (HashMap) task.getResult().getValue();
+
+            // username instead of Token?
+            String token = tempMap.get("token").toString();
+
+            new Thread(() -> sendMessageToDevice(token, note)).start();
+        });
+    }
+
+    private void sendMessageToDevice(String targetToken, Note note) {
+        System.out.println("client token:" + targetToken);
+        // Prepare data
+        JSONObject jPayload = new JSONObject();
+        JSONObject jNotification = new JSONObject();
+        JSONObject jdata = new JSONObject();
+        try {
+            String title = "note from " + note.fromUser;
+            String msg = "this is a Note " + note.id;
+            jNotification.put("title", title);
+            jNotification.put("body", msg);
+            jdata.put("title", "data:" + title);
+            jdata.put("content", "data:" + msg);
+            jdata.put("image_id", note.id);
+
+            jPayload.put("to", targetToken);
+            jPayload.put("priority", "high");
+            jPayload.put("notification", jNotification);
+            jPayload.put("data", jdata);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+
+        final String resp = fcmHttpConnection(SERVER_KEY, jPayload);
+        // postToastMessage("Status from Server: " + resp, getApplicationContext());
 
     }
 
+    private static void postToastMessage(final String message, final Context context){
+        Handler handler = new Handler(Looper.getMainLooper());
+
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(context, message, Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    private static String fcmHttpConnection(String serverToken, JSONObject jsonObject) {
+        try {
+
+            // Open the HTTP connection and send the payload
+            URL url = new URL("https://fcm.googleapis.com/fcm/send");
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("POST");
+            conn.setRequestProperty("Content-Type", "application/json");
+            conn.setRequestProperty("Authorization", serverToken);
+            conn.setDoOutput(true);
+
+            // Send FCM message content.
+            OutputStream outputStream = conn.getOutputStream();
+            outputStream.write(jsonObject.toString().getBytes());
+            outputStream.close();
+
+            // Read FCM response.
+            InputStream inputStream = conn.getInputStream();
+            return convertStreamToString(inputStream);
+        } catch (IOException e) {
+            return "NULL";
+        }
+    }
+
+    private static String convertStreamToString(InputStream inputStream) {
+        return "";
+    }
+
+    private String getCurrentUsername() {
+        return userIdToUserNameMap.get(Settings.Secure.getString(
+                getApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID));
+    }
+
+    private ImageView getSelectedImage() {
+        for (Map.Entry<ImageView, Boolean> entry : imageViewIsClickedMap.entrySet()) {
+            if (entry.getValue()) {
+                return entry.getKey();
+            }
+        }
+        return null;
+    }
+
+    public static String start() {
+        Calendar cal = Calendar.getInstance();
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT_NOW);
+        return sdf.format(cal.getTime());
+    }
 
     private ImageView getImageViewById(int id) {
 
@@ -221,5 +368,10 @@ public class SendNoteToFriendsActivity extends AppCompatActivity {
                 "id", getPackageName());
         ImageView curImage = findViewById(curImageId);
         return curImage;
+    }
+
+    @SuppressLint("NonConstantResourceId")
+    public int getCurrentSelectedId() {
+        return -1;
     }
 }

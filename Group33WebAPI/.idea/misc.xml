@@ -3,6 +3,8 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/bambooking/Desktop/Android-Studio-Project/Group33WebAPI/app/src/main/res/layout/activity_note_received_history.xml" value="0.35" />
+        <entry key="..\:/Users/bambooking/Desktop/Android-Studio-Project/Group33WebAPI/app/src/main/res/layout/activity_send_note_to_friends.xml" value="0.35333333333333333" />
         <entry key="..\:/Users/bambooking/Desktop/Group33WebAPI/app/src/main/res/layout/activity_main.xml" value="0.5451282051282051" />
         <entry key="..\:/Users/bambooking/Desktop/Group33WebAPI/app/src/main/res/layout/activity_weather_api.xml" value="0.28229166666666666" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.33106884057971014" />

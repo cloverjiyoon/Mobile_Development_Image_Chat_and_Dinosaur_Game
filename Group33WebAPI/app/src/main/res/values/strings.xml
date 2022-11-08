@@ -1,3 +1,19 @@
 <resources>
-    <string name="app_name">Group33WebAPI</string>
+    <string name="app_name">group33webapi</string>
+    <string name="channel_id">group33webapi_Stick_It_toEm_channel</string>
+    <string name="channel_name">group33webapi_It_To_Em</string>
+    <string name="channel_description">group33webapi_Stick_It_To_Em</string>
+    <string-array name="friend_names">
+        <item>yachen</item>
+        <item>Clover</item>
+        <item>zhu</item>
+        <item>lei</item>
+        <item>danny</item>
+    </string-array>
+    <string name="sent_times_string">Times sent:</string>
+    <string name="my_name_string">My Name</string>
+    <string name="received_history_string">Received History</string>
+    <string name="stickers_string">Stickers</string>
+    <string name="from_user_string">From User</string>
+    <string name="send_time_string">Send Time</string>
 </resources>

@@ -15,14 +15,16 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Group33WebAPI"
         tools:targetApi="31">
-
-<!--        <activity-->
-<!--            android:name=".SendNoteToFriendsActivity"-->
-<!--            android:exported="false">-->
-<!--            <meta-data-->
-<!--                android:name="android.app.lib_name"-->
-<!--                android:value="" />-->
-<!--        </activity>-->
+        <activity
+            android:name=".NoteReceivedHistoryActivity"
+            android:exported="false" />
+        <!-- <activity -->
+        <!-- android:name=".SendNoteToFriendsActivity" -->
+        <!-- android:exported="false"> -->
+        <!-- <meta-data -->
+        <!-- android:name="android.app.lib_name" -->
+        <!-- android:value="" /> -->
+        <!-- </activity> -->
         <activity
             android:name=".FirebaseActivity"
             android:exported="false">
