@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".Firebase.SendNoteToFriendsActivity">
+
+        <TextView
+            android:id="@+id/my_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="My Name"
+            android:textColor="@color/black"
+            app:layout_constraintBottom_toTopOf="@id/image1"
+            app:layout_constraintEnd_toStartOf="@id/send_to"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/send_to"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Send To"
+            android:textColor="@color/black"
+            app:layout_constraintBottom_toTopOf="@id/image2"
+            app:layout_constraintEnd_toStartOf="@id/friend_spinner"
+            app:layout_constraintStart_toEndOf="@id/my_name"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Spinner
+            android:id="@+id/friend_spinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/send_to"
+            app:layout_constraintTop_toTopOf="@+id/send_to" />
+
+        <ImageView
+            android:id="@+id/image1"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:src="@drawable/sun"
+            app:layout_constraintEnd_toStartOf="@id/image2"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/friend_spinner" />
+
+        <ImageView
+            android:id="@+id/image2"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:src="@drawable/rain"
+            app:layout_constraintEnd_toStartOf="@id/image3"
+            app:layout_constraintStart_toEndOf="@id/image1"
+            app:layout_constraintTop_toBottomOf="@id/friend_spinner" />
+
+        <ImageView
+            android:id="@+id/image3"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:src="@drawable/rainstorm"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/image2"
+            app:layout_constraintTop_toBottomOf="@id/friend_spinner" />
+
+        <ImageView
+            android:id="@+id/image4"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:src="@drawable/snow"
+            app:layout_constraintEnd_toStartOf="@id/image5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/image1SentTimesTV" />
+
+        <ImageView
+            android:id="@+id/image5"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:src="@drawable/wind"
+            app:layout_constraintStart_toEndOf="@id/image4"
+            app:layout_constraintStart_toStartOf="@+id/image5SentTimesTV"
+            app:layout_constraintTop_toBottomOf="@id/image2SentTimesTV" />
+
+        <ImageView
+            android:id="@+id/image6"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:src="@drawable/cloud"
+            app:layout_constraintStart_toEndOf="@id/image5"
+            app:layout_constraintStart_toStartOf="@+id/image6SentTimesTV"
+            app:layout_constraintTop_toBottomOf="@id/image3SentTimesTV" />
+
+
+        <Button
+            android:id="@+id/submit_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:onClick="onSubmitButtonPressed"
+            android:text="Submit"
+            app:layout_constraintEnd_toStartOf="@+id/history_button"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/image5SentTimesTV" />
+
+        <Button
+            android:id="@+id/history_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:onClick="onHistoryButtonPressed"
+            android:text="Received History"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/submit_button"
+            app:layout_constraintTop_toBottomOf="@+id/image5SentTimesTV" />
+
+        <TextView
+            android:id="@+id/image1SentTimesTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:text="Times sent:"
+            app:layout_constraintBottom_toTopOf="@id/image4"
+            app:layout_constraintStart_toStartOf="@+id/image1"
+            app:layout_constraintTop_toBottomOf="@id/image1" />
+
+        <TextView
+            android:id="@+id/image2SentTimesTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:text="Times sent:"
+            app:layout_constraintBottom_toTopOf="@id/image5"
+            app:layout_constraintStart_toEndOf="@id/image1SentTimesTV"
+            app:layout_constraintStart_toStartOf="@+id/image2"
+            app:layout_constraintTop_toBottomOf="@id/image2" />
+
+        <TextView
+            android:id="@+id/image3SentTimesTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:text="Times sent:"
+            app:layout_constraintBottom_toTopOf="@id/image6"
+            app:layout_constraintStart_toEndOf="@id/image2SentTimesTV"
+            app:layout_constraintStart_toStartOf="@+id/image3"
+
+            app:layout_constraintTop_toBottomOf="@id/image3" />
+
+        <TextView
+            android:id="@+id/image4SentTimesTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:text="Times sent:"
+            app:layout_constraintStart_toStartOf="@+id/image4"
+            app:layout_constraintTop_toBottomOf="@id/image4" />
+
+        <TextView
+            android:id="@+id/image5SentTimesTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:text="Times sent:"
+            app:layout_constraintEnd_toStartOf="@id/image6SentTimesTV"
+            app:layout_constraintStart_toEndOf="@id/image4SentTimesTV"
+            app:layout_constraintTop_toBottomOf="@id/image5" />
+
+        <TextView
+            android:id="@+id/image6SentTimesTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:text="Times sent:"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/image5SentTimesTV"
+            app:layout_constraintTop_toBottomOf="@id/image6" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>
