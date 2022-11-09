@@ -18,13 +18,13 @@
         <activity
             android:name=".Firebase.NoteReceivedHistoryActivity"
             android:exported="false" />
-        <!-- <activity -->
-        <!-- android:name=".SendNoteToFriendsActivity" -->
-        <!-- android:exported="false"> -->
-        <!-- <meta-data -->
-        <!-- android:name="android.app.lib_name" -->
-        <!-- android:value="" /> -->
-        <!-- </activity> -->
+         <activity
+         android:name=".Firebase.SendNoteToFriendsActivity"
+         android:exported="false">
+         <meta-data
+         android:name="android.app.lib_name"
+         android:value="" />
+         </activity>
         <activity
             android:name=".FirebaseActivity"
             android:exported="false">
