@@ -114,7 +114,7 @@ public class SendNoteToFriendsActivity extends AppCompatActivity {
     }
 
     private void syncImageViewSentCountWithDB() {
-        myDataBase.child("notes").get().addOnCompleteListener((task) -> {
+        myDataBase.child("note").get().addOnCompleteListener((task) -> {
             HashMap<String, HashMap<String, String>> tempMap = (HashMap) task.getResult().getValue();
             if (tempMap == null) {
                 return;
@@ -236,7 +236,7 @@ public class SendNoteToFriendsActivity extends AppCompatActivity {
         int selectedImageId = getCurrentSelectedId();
         if (selectedImageId == -1) {
             Context context = getApplicationContext();
-            CharSequence text = "no note is selected for" + selectedUsername;
+            CharSequence text = "no note is selected for user : " + selectedUsername;
             int duration = Toast.LENGTH_SHORT;
             Toast toast = Toast.makeText(context, text, duration);
             toast.show();
@@ -372,6 +372,12 @@ public class SendNoteToFriendsActivity extends AppCompatActivity {
 
     @SuppressLint("NonConstantResourceId")
     public int getCurrentSelectedId() {
+        for (ImageView imageView : imageViewIsClickedMap.keySet()) {
+            if (Boolean.TRUE.equals(imageViewIsClickedMap.get(imageView))) {
+                return imageViewIdToId.getOrDefault(imageView.getId(), -1);
+            }
+        }
         return -1;
+
     }
 }

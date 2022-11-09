@@ -52,7 +52,7 @@ public class NoteReceivedHistoryActivity extends AppCompatActivity {
 
     private void syncnotesFromDB() {
         notes = new ArrayList<>();
-        myDataBase.child("notes").get().addOnCompleteListener((task) -> {
+        myDataBase.child("note").get().addOnCompleteListener((task) -> {
             HashMap<String, HashMap<String, String>> tempMap = (HashMap) task.getResult().getValue();
             if (tempMap == null) {
                 return;
