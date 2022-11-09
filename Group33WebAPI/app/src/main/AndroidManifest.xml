@@ -16,7 +16,7 @@
         android:theme="@style/Theme.Group33WebAPI"
         tools:targetApi="31">
         <activity
-            android:name=".NoteReceivedHistoryActivity"
+            android:name=".Firebase.NoteReceivedHistoryActivity"
             android:exported="false" />
         <!-- <activity -->
         <!-- android:name=".SendNoteToFriendsActivity" -->
