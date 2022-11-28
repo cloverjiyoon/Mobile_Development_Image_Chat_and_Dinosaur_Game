@@ -59,6 +59,12 @@
                 android:value="" />
         </activity>
         <activity
+            android:name=".FinalProjectActivity"
+            android:screenOrientation="portrait"
+            android:hardwareAccelerated="false"
+            android:exported="false">
+        </activity>
+        <activity
             android:name=".WeatherActivity"
             android:configChanges="orientation|screenSize"
             android:exported="false" />

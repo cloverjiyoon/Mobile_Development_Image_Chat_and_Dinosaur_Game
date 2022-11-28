@@ -16,6 +16,16 @@ public class MainActivity extends AppCompatActivity {
 
         Button buttonWeatherAPI = findViewById(R.id.button1);
         Button buttonFirebase = findViewById(R.id.firebase);
+        Button buttonFinalProject = findViewById(R.id.finalProject);
+
+        buttonFinalProject.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, FinalProjectActivity.class);
+                startActivity(intent);
+            }
+        });
+
 
         buttonWeatherAPI.setOnClickListener(new View.OnClickListener() {
             @Override
