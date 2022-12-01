@@ -161,7 +161,7 @@ public class SendNoteToFriendsActivity extends AppCompatActivity {
                     = new ArrayAdapter<>(getApplicationContext(),
                     androidx.appcompat.R.layout.support_simple_spinner_dropdown_item,
                     userNames);
-            allFriends.setAdapter(adapter);
+
         });
     }
 
