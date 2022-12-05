@@ -9,6 +9,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import edu.northeastern.group33webapi.FinalProject.login.loginActivity;
+
 public class MainActivity extends AppCompatActivity {
 
     @Override
@@ -63,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
         buttonFinalProject.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, FinalProjectActivity.class);
+                Intent intent = new Intent(MainActivity.this, loginActivity.class);
                 startActivity(intent);
             }
         });

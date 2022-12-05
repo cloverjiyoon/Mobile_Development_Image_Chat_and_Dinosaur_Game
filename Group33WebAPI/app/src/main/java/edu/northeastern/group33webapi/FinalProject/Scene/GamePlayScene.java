@@ -50,7 +50,7 @@ public class GamePlayScene implements Scene{
 
     @Override
     public void update() {
-        if(true){
+        if(!gameOver){
             if(frameTime < Constants.INIT_TIME)
                 frameTime = Constants.INIT_TIME;
             int elapsedTime = (int) (System.currentTimeMillis() - frameTime);
