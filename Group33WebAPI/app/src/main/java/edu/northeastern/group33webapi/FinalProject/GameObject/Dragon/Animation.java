@@ -16,9 +16,9 @@ public class Animation {
     }
 
     public void play(){
-        isPlaying = true;
-        frameIndex = 0;
-        lastFrame = System.currentTimeMillis();
+        this.isPlaying = true;
+        this.frameIndex = 0;
+        this.lastFrame = System.currentTimeMillis();
     }
     public void stop(){
         isPlaying = false;

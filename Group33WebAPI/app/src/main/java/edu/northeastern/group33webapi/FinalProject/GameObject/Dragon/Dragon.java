@@ -16,6 +16,8 @@ public class Dragon implements GameObject{
 
     private Rect rectangle;
     private int color;
+    public int score;
+    public int coinNum;
 
     private Animation idle;
     private Animation walkRight;
@@ -26,7 +28,8 @@ public class Dragon implements GameObject{
     public Dragon(Rect rectangle, int color){
         this.rectangle = rectangle;
         this.color = color;
-
+        this.score = 0;
+        this.coinNum = 0;
 
         BitmapFactory bf = new BitmapFactory();
         Bitmap idleImg = bf.decodeResource(Constants.CURRENT_CONTEXT.getResources(), R.drawable.idle);

@@ -43,6 +43,21 @@ public class ObstacleManager {
         return false;
     }
 
+    public boolean coinCollide(Dragon dragon){
+        for(Obstacle ob : obstacles){
+            if(ob.coinCollide(dragon))
+                return true;
+        }
+        return false;
+    }
+
+    public boolean scoreCollide(Dragon dragon){
+        for(Obstacle ob : obstacles){
+            if(ob.scoreCollide(dragon))
+                return true;
+        }
+        return false;
+    }
 
     private void populateObstacles(){
 
@@ -73,6 +88,9 @@ public class ObstacleManager {
             int xStart = (int)(Math.random() *(Constants.SCREEN_WIDTH - playerGap));
             obstacles.add(0, new Obstacle(obstacleHeight, color, xStart, obstacles.get(0).getRectangle().top - obstacleHeight - obstacleGap, playerGap));
             obstacles.remove(obstacles.size() - 1);
+        }
+        for(Obstacle ob : obstacles) {
+            ob.update();
         }
 
     }

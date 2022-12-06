@@ -29,7 +29,7 @@ public class GamePlayScene implements Scene{
     private long frameTime;
 
     public GamePlayScene(SceneManager manager){
-        obstacleManager = new ObstacleManager(200, 350, 75, Color.LTGRAY);
+        obstacleManager = new ObstacleManager(600, 350, 75, Color.LTGRAY);
         sceneManager = manager;
 
         //initialize the dragon player
@@ -85,9 +85,16 @@ public class GamePlayScene implements Scene{
             dragon.update(dragonPoint);
             obstacleManager.update();
 
-            if(obstacleManager.dragonCollide(dragon))
+            if(obstacleManager.dragonCollide(dragon)) {
                 gameOver = true;
 
+            }
+            if(obstacleManager.coinCollide(dragon)) {
+                dragon.coinNum++;
+            };
+            if (obstacleManager.scoreCollide(dragon)) {
+                dragon.score++;
+            }
         }
 
 
@@ -98,11 +105,13 @@ public class GamePlayScene implements Scene{
         canvas.drawColor(Color.rgb(0, 135, 62));
         dragon.draw(canvas);
         obstacleManager.draw(canvas);
+        Paint paint = new Paint();
+        paint.setTextSize(100);
+        paint.setColor(Color.MAGENTA);
+
+        drawTopLeftText(canvas, paint, "Score: " + dragon.score + "\n" + "Coins: " + dragon.coinNum);
 
         if(gameOver){
-            Paint paint = new Paint();
-            paint.setTextSize(100);
-            paint.setColor(Color.MAGENTA);
             drawCenterText(canvas, paint, "Game Over");
         }
     }
@@ -123,7 +132,15 @@ public class GamePlayScene implements Scene{
         float x = cWidth / 2f - r.width() / 2f - r.left;
         float y = cHeight / 2f + r.height() / 2f - r.bottom;
         canvas.drawText(text, x, y, paint);
-
-
+    }
+    private void drawTopLeftText(Canvas canvas, Paint paint, String text){
+        paint.setTextAlign(Paint.Align.LEFT);
+        canvas.getClipBounds(r);
+        int cHeight = r.height();
+        int cWidth = r.width();
+        paint.getTextBounds(text, 0, text.length(), r);
+        float x = 0;
+        float y = r.height();
+        canvas.drawText(text, x, y, paint);
     }
 }
