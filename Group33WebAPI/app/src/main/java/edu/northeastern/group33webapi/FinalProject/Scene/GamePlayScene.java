@@ -1,15 +1,21 @@
 package edu.northeastern.group33webapi.FinalProject.Scene;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Rect;
+import android.view.View;
 
 import edu.northeastern.group33webapi.FinalProject.Constants;
 import edu.northeastern.group33webapi.FinalProject.GameObject.Dragon.Dragon;
 import edu.northeastern.group33webapi.FinalProject.GameObject.Obstacle.ObstacleManager;
 import edu.northeastern.group33webapi.FinalProject.Controller.GyroScopicController;
+import edu.northeastern.group33webapi.FinalProject.login.TopScore;
+import edu.northeastern.group33webapi.FinalProjectActivity;
 
 public class GamePlayScene implements Scene{
     private Dragon dragon;
@@ -27,9 +33,10 @@ public class GamePlayScene implements Scene{
 
     //track the time between frames
     private long frameTime;
+    private TopScore topScore;
 
     public GamePlayScene(SceneManager manager){
-        obstacleManager = new ObstacleManager(600, 350, 75, Color.LTGRAY);
+        obstacleManager = new ObstacleManager(400, 350, 75, Color.LTGRAY);
         sceneManager = manager;
 
         //initialize the dragon player
@@ -42,7 +49,7 @@ public class GamePlayScene implements Scene{
         gyroScopicController.register();
 
         frameTime = System.currentTimeMillis();
-
+//        topScore = new TopScore();
 
 
     }
@@ -86,15 +93,38 @@ public class GamePlayScene implements Scene{
             obstacleManager.update();
 
             if(obstacleManager.dragonCollide(dragon)) {
-                gameOver = true;
+                dragon.HP--; // if dragon hit wall lost one HP
+                if (dragon.HP == 0){
+                gameOver = true; // GAME OVER
+                }
+//                top = dragon.score;
 
             }
             if(obstacleManager.coinCollide(dragon)) {
-                dragon.coinNum++;
+                dragon.coinNum++;     // SCORE UPDATE BY PASS COIN
+                dragon.score += 50;     // SCORE UPDATE BY PASS COIN
+                if (dragon.coinNum == 100){
+                    dragon.coinNum -= 100; // USE 100 COINS CHANGE ONE HP
+                    dragon.HP++;
+                }
             };
             if (obstacleManager.scoreCollide(dragon)) {
-                dragon.score++;
+                dragon.score++;     // SCORE UPDATE BY PASS WALL
             }
+
+
+//            if (gameOver == true){
+//                new AlertDialog.Builder(Constants.CURRENT_CONTEXT)
+//                        .setTitle("Game Over")
+//                        .setMessage("GAMEOVER,YOUR SCORE IS" + dragon.score)
+//                        .setPositiveButton("RESTART",new DialogInterface.OnClickListener(){
+//                    public void onClick(DialogInterface dialog, int which){
+//                        dragon = new Dragon(new Rect(100, 100, 200, 200), Color.RED);
+//                        gameOver = false;
+//                    }
+//                }).show();
+//            }
+//
         }
 
 
@@ -109,7 +139,7 @@ public class GamePlayScene implements Scene{
         paint.setTextSize(100);
         paint.setColor(Color.MAGENTA);
 
-        drawTopLeftText(canvas, paint, "Score: " + dragon.score + "\n" + "Coins: " + dragon.coinNum);
+        drawTopLeftText(canvas, paint, "Score: " + dragon.score + "\n" + "Coins: " + dragon.coinNum + "\n" + "HP: " + dragon.HP);
 
         if(gameOver){
             drawCenterText(canvas, paint, "Game Over");

@@ -26,6 +26,10 @@
             android:name=".FinalProject.login.loginActivity"
             android:exported="false">
         </activity>
+        <activity
+            android:name=".FinalProject.login.gameStartActivity"
+            android:exported="false">
+        </activity>
 
         <service
             android:name=".Firebase.MyFirebaseMessagingService"
@@ -56,6 +60,10 @@
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
+
+
+
+
         <activity
             android:name=".FirebaseActivity"
             android:exported="false">

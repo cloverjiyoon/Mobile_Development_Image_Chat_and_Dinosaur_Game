@@ -9,7 +9,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import edu.northeastern.group33webapi.FinalProjectActivity;
 import edu.northeastern.group33webapi.R;
 
 public class loginActivity extends AppCompatActivity {
@@ -46,7 +45,7 @@ public class loginActivity extends AppCompatActivity {
                             Boolean insert = DB.insertData(user, pass);
                             if(insert == true){
                                 Toast.makeText(loginActivity.this, "Registered successfully", Toast.LENGTH_SHORT);
-                                Intent intent = new Intent(getApplicationContext(), FinalProjectActivity.class);
+                                Intent intent = new Intent(getApplicationContext(), gameStartActivity.class);
                                 startActivity(intent);
                             }else{
                                 Toast.makeText(loginActivity.this, "Registration failed", Toast.LENGTH_SHORT);
@@ -74,7 +73,7 @@ public class loginActivity extends AppCompatActivity {
                     Boolean checkuserpass = DB.checkusernamepassword(user, pass);
                     if(checkuserpass == true){
                         Toast.makeText(loginActivity.this, "Sign in successfully", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(getApplicationContext(), FinalProjectActivity.class);
+                        Intent intent = new Intent(getApplicationContext(), gameStartActivity.class);
                         startActivity(intent);
                     }else{
                         Toast.makeText(loginActivity.this, "Invalid Credentials", Toast.LENGTH_SHORT).show();
