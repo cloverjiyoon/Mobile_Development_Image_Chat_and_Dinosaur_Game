@@ -45,7 +45,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 
     @Override
     public void surfaceCreated(@NonNull SurfaceHolder surfaceHolder) {
-        thread = new MainThread(getHolder(), this);
+        thread = new MainThread(getHolder(), this, Constants.CURRENT_CONTEXT);
         Constants.INIT_TIME = System.currentTimeMillis();
         thread.setRunning(true);
         thread.start();

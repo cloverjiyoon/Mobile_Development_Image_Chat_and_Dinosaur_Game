@@ -1,5 +1,6 @@
 package edu.northeastern.group33webapi.FinalProject;
 
+import android.content.Context;
 import android.graphics.Canvas;
 import android.view.SurfaceHolder;
 
@@ -12,16 +13,18 @@ public class MainThread extends Thread{
     private GamePanel gamePanel;
     private boolean running;
     public static Canvas canvas;
+    public Context context;
+
 
     public void setRunning(boolean running) {
         this.running = running;
     }
 
-    public MainThread(SurfaceHolder surfaceHolder, GamePanel gamePanel){
+    public MainThread(SurfaceHolder surfaceHolder, GamePanel gamePanel, Context context){
         super();
         this.surfaceHolder = surfaceHolder;
         this.gamePanel = gamePanel;
-
+        this.context = context;
     }
 
     @Override

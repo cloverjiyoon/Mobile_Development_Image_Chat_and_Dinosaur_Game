@@ -37,8 +37,10 @@ public class ObstacleManager {
 
     public boolean dragonCollide(Dragon dragon){
         for(Obstacle ob : obstacles){
-            if(ob.dragonCollide(dragon))
+            if(ob.dragonCollide(dragon)) {
+                obstacles.remove(ob);
                 return true;
+            }
         }
         return false;
     }
