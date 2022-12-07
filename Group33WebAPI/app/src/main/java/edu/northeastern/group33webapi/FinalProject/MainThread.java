@@ -6,7 +6,7 @@ import android.view.SurfaceHolder;
 
 import edu.northeastern.group33webapi.FinalProject.Scene.SceneManager;
 
-public class MainThread extends Thread{
+public class MainThread extends Thread {
     public static final int MAX_FPS = 30;
     private double averageFPS;
     private SurfaceHolder surfaceHolder;
@@ -15,12 +15,14 @@ public class MainThread extends Thread{
     public static Canvas canvas;
     public Context context;
 
+//    public int gameState;
+
 
     public void setRunning(boolean running) {
         this.running = running;
     }
 
-    public MainThread(SurfaceHolder surfaceHolder, GamePanel gamePanel, Context context){
+    public MainThread(SurfaceHolder surfaceHolder, GamePanel gamePanel, Context context) {
         super();
         this.surfaceHolder = surfaceHolder;
         this.gamePanel = gamePanel;
@@ -60,10 +62,10 @@ public class MainThread extends Thread{
                 }
             }
 
-            timeMillis = (System.nanoTime() - startTime)/1000000;
+            timeMillis = (System.nanoTime() - startTime) / 1000000;
             waitTime = targetTime - timeMillis;
-            try{
-                if(waitTime > 0)
+            try {
+                if (waitTime > 0)
                     this.sleep(waitTime);
             } catch (InterruptedException e) {
                 e.printStackTrace();
@@ -75,7 +77,7 @@ public class MainThread extends Thread{
                 averageFPS = 1000 / ((totalTime / frameCount) / 1000000);
                 frameCount = 0;
                 totalTime = 0;
-                System.out.println(averageFPS);
+                //    System.out.println(averageFPS);
             }
         }
 
