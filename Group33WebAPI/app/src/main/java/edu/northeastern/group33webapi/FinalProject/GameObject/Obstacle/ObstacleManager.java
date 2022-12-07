@@ -9,6 +9,9 @@ import java.util.ArrayList;
 
 import edu.northeastern.group33webapi.FinalProject.Constants;
 import edu.northeastern.group33webapi.FinalProject.GameObject.Dragon.Dragon;
+import edu.northeastern.group33webapi.FinalProject.GamePanel;
+import edu.northeastern.group33webapi.FinalProject.Scene.GamePlayScene;
+import edu.northeastern.group33webapi.FinalProject.Scene.SceneManager;
 
 public class ObstacleManager {
 
@@ -21,8 +24,9 @@ public class ObstacleManager {
 
     private long startTime;
     private long initTime;
+    public int gameState = 1;
 
-    public ObstacleManager(int playerGap, int obstacleGap, int obstacleHeight, int color){
+    public ObstacleManager(int playerGap, int obstacleGap, int obstacleHeight, int color) {
         this.playerGap = playerGap;
         this.obstacleGap = obstacleGap;
         this.obstacleHeight = obstacleHeight;
@@ -35,9 +39,9 @@ public class ObstacleManager {
         populateObstacles();
     }
 
-    public boolean dragonCollide(Dragon dragon){
-        for(Obstacle ob : obstacles){
-            if(ob.dragonCollide(dragon) && !ob.isHashit()) {
+    public boolean dragonCollide(Dragon dragon) {
+        for (Obstacle ob : obstacles) {
+            if (ob.dragonCollide(dragon) && !ob.isHashit()) {
                 ob.setHashit();
                 return true;
             }
@@ -45,60 +49,64 @@ public class ObstacleManager {
         return false;
     }
 
-    public boolean coinCollide(Dragon dragon){
-        for(Obstacle ob : obstacles){
-            if(ob.coinCollide(dragon))
+    public boolean coinCollide(Dragon dragon) {
+        for (Obstacle ob : obstacles) {
+            if (ob.coinCollide(dragon))
                 return true;
         }
         return false;
     }
 
-    public boolean scoreCollide(Dragon dragon){
-        for(Obstacle ob : obstacles){
-            if(ob.scoreCollide(dragon))
+    public boolean scoreCollide(Dragon dragon) {
+        for (Obstacle ob : obstacles) {
+            if (ob.scoreCollide(dragon))
                 return true;
         }
         return false;
     }
 
-    private void populateObstacles(){
+    private void populateObstacles() {
 
         int currY = -5 * Constants.SCREEN_HEIGHT / 4;
 
-        while(currY < 0){
-            int xStart = (int) (Math.random() *(Constants.SCREEN_WIDTH - playerGap));
+        while (currY < 0) {
+            int xStart = (int) (Math.random() * (Constants.SCREEN_WIDTH - playerGap));
             obstacles.add(new Obstacle(obstacleHeight, color, xStart, currY, playerGap));
             currY += obstacleHeight + obstacleGap;
         }
     }
 
     //update based on the frame
-    public void update(){
+    public void update() {
         //fix the bug caused by leaving
-        if(startTime < Constants.INIT_TIME)
+
+        if (startTime < Constants.INIT_TIME)
             startTime = Constants.INIT_TIME;
 
-        int elapseTime = (int) (System.currentTimeMillis() - startTime);
+        if (gameState % 2 == 0) {
+            return;
+        }
+        int elapseTime = Constants.FT;
         startTime = System.currentTimeMillis();
-        float speed = (float) Math.sqrt(1 + (startTime - initTime)/1000.0) * Constants.SCREEN_HEIGHT/10000.0f;
-        for(Obstacle ob : obstacles){
+        float speed = (float) Math.sqrt(1 + (startTime - initTime) / 1000.0) * Constants.SCREEN_HEIGHT / 10000.0f;
+        for (Obstacle ob : obstacles) {
             ob.incrementY(speed * elapseTime);
 
         }
 
-        if(obstacles.get(obstacles.size() - 1).getRectangle().top >= Constants.SCREEN_HEIGHT){
-            int xStart = (int)(Math.random() *(Constants.SCREEN_WIDTH - playerGap));
+        if (obstacles.get(obstacles.size() - 1).getRectangle().top >= Constants.SCREEN_HEIGHT) {
+            int xStart = (int) (Math.random() * (Constants.SCREEN_WIDTH - playerGap));
             obstacles.add(0, new Obstacle(obstacleHeight, color, xStart, obstacles.get(0).getRectangle().top - obstacleHeight - obstacleGap, playerGap));
             obstacles.remove(obstacles.size() - 1);
         }
-        for(Obstacle ob : obstacles) {
+        for (Obstacle ob : obstacles) {
             ob.update();
         }
 
     }
 
-    public void draw(Canvas canvas){
-        for(Obstacle ob : obstacles) {
+    public void draw(Canvas canvas) {
+        for (Obstacle ob : obstacles) {
             ob.draw(canvas);
         }
     }

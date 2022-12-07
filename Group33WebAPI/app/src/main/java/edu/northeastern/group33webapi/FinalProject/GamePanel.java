@@ -5,22 +5,26 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
 import androidx.annotation.NonNull;
+import androidx.core.view.MotionEventCompat;
 
+import edu.northeastern.group33webapi.FinalProject.GameObject.Obstacle.ObstacleManager;
 import edu.northeastern.group33webapi.FinalProject.Scene.GamePlayScene;
 import edu.northeastern.group33webapi.FinalProject.Scene.SceneManager;
 
 
 public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
+    private static final String DEBUG_TAG = "Gestures";
     private MainThread thread;
     SceneManager sceneManager;
 
 
-    public GamePanel(Context context){
+    public GamePanel(Context context) {
         super(context);
 
 
@@ -33,7 +37,6 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
         sceneManager = new SceneManager();
 
         setFocusable(true);
-
 
 
     }
@@ -57,23 +60,52 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
         boolean retry = true;
 
         //when you re-enter
-        while(retry){
-            try{
+        while (retry) {
+            try {
                 thread.setRunning(false);
                 thread.join();
 
-            }catch(Exception e){e.printStackTrace();}
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
 
-            retry  = false;
+            retry = false;
         }
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        return super.onTouchEvent(event);
+
+        int action = MotionEventCompat.getActionMasked(event);
+        GamePlayScene gamePlayScene = (GamePlayScene) sceneManager.getScenes().get(sceneManager.ACTIVE_SCENE);
+
+        switch (action) {
+            case (MotionEvent.ACTION_DOWN):
+                Log.d(DEBUG_TAG, "Action was DOWN");
+                gamePlayScene.gameState++;
+                gamePlayScene.getObstacleManager().gameState++;
+                return true;
+            case (MotionEvent.ACTION_MOVE):
+                Log.d(DEBUG_TAG, "Action was MOVE");
+                return true;
+            case (MotionEvent.ACTION_UP):
+                Log.d(DEBUG_TAG, "Action was UP");
+                return true;
+            case (MotionEvent.ACTION_CANCEL):
+                Log.d(DEBUG_TAG, "Action was CANCEL");
+                return true;
+            case (MotionEvent.ACTION_OUTSIDE):
+                Log.d(DEBUG_TAG, "Movement occurred outside bounds " +
+                        "of current screen element");
+                return true;
+            default:
+                return super.onTouchEvent(event);
+        }
+
+//        return super.onTouchEvent(event);
     }
 
-    public void update(){
+    public void update() {
         sceneManager.update();
     }
 
