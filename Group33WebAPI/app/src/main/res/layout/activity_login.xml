@@ -6,44 +6,46 @@
     android:layout_height="match_parent"
     android:padding = "10dp"
     tools:context=".FinalProject.login.loginActivity">
-    
-    <EditText
-        android:id = "@+id/username"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint = "User Name"
-        android:layout_marginTop="50dp"/>
 
     <EditText
-        android:id = "@+id/password"
+        android:id="@+id/username"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:inputType="textPassword"
-        android:hint = "Password"
-        android:layout_below="@+id/username"/>
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="10dp"
+        android:hint="User Name" />
 
     <EditText
-        android:id = "@+id/repassword"
+        android:id="@+id/password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:inputType="textPassword"
-        android:hint = "Retype Password"
-        android:layout_marginTop="50dp"
-        android:layout_below="@+id/password"/>
+        android:layout_below="@+id/username"
+        android:layout_marginTop="0dp"
+        android:hint="Password"
+        android:inputType="textPassword" />
+
+    <EditText
+        android:id="@+id/repassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/password"
+        android:layout_marginTop="10dp"
+        android:hint="Retype Password"
+        android:inputType="textPassword" />
 
     <Button
         android:id = "@+id/btnsignup"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Register"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="10dp"
         android:layout_below="@+id/repassword"/>
     <Button
         android:id = "@+id/btnsignin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Existing user! Go to Sign in page"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="10dp"
         android:layout_below="@+id/btnsignup"/>
 
 </RelativeLayout>

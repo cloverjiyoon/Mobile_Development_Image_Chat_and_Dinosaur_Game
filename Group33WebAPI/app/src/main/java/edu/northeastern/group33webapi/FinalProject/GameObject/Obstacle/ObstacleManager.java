@@ -37,8 +37,8 @@ public class ObstacleManager {
 
     public boolean dragonCollide(Dragon dragon){
         for(Obstacle ob : obstacles){
-            if(ob.dragonCollide(dragon)) {
-                obstacles.remove(ob);
+            if(ob.dragonCollide(dragon) && !ob.isHashit()) {
+                ob.setHashit();
                 return true;
             }
         }

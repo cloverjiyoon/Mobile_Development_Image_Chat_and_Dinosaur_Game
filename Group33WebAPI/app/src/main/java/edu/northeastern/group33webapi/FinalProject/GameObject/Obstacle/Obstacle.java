@@ -5,6 +5,8 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 
+import com.google.android.gms.common.internal.FallbackServiceBroker;
+
 import edu.northeastern.group33webapi.FinalProject.Constants;
 import edu.northeastern.group33webapi.FinalProject.GameObject.Dragon.Dragon;
 import edu.northeastern.group33webapi.FinalProject.GameObject.GameObject;
@@ -15,6 +17,15 @@ public class Obstacle implements GameObject {
     private Rect rectRight;
     private Coin coin;
     private Rect wholeRect;
+    private boolean hashit;
+
+    public void setHashit() {
+        this.hashit = true;
+    }
+
+    public boolean isHashit() {
+        return this.hashit;
+    }
 
     public void incrementY(float y) {
         rectLeft.top += y;
@@ -42,6 +53,7 @@ public class Obstacle implements GameObject {
 
         int left = (int) (Math.random() *(Constants.SCREEN_WIDTH));
         this.coin = new Coin(new Rect(left, startY + 150, left + 100, startY + 250),Color.RED);
+        this.hashit = false;
     }
 
 
