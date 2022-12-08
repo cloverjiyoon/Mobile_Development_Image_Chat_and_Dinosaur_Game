@@ -135,41 +135,46 @@ public class registerActivity extends AppCompatActivity implements View.OnClickL
             return;
         }
 
-        Task<SignInMethodQueryResult> signInMethods = mAuth.fetchSignInMethodsForEmail(emailVal);
-
-        if(!signInMethods.isSuccessful()){
-            email.setError("This email has been registered");
-            email.requestFocus();
-            return;
-        }
-
-        progressBar.setVisibility(View.VISIBLE);
-        mAuth.createUserWithEmailAndPassword(emailVal, pwd).addOnCompleteListener(registerActivity.this, new OnCompleteListener<AuthResult>() {
+        mAuth.fetchSignInMethodsForEmail(emailVal).addOnCompleteListener(registerActivity.this, new OnCompleteListener<SignInMethodQueryResult>() {
             @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-
-                if (task.isSuccessful()) {
-                    gameUser user = new gameUser(name, pwd, emailVal, 0);
-                    FirebaseDatabase.getInstance().getReference().child("gameUsers").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(user).addOnCompleteListener(registerActivity.this, new OnCompleteListener<Void>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Void> task) {
-                            if (task.isSuccessful()) {
-                                Toast.makeText(registerActivity.this, "User has been registered successfully!", Toast.LENGTH_LONG).show();
-                                progressBar.setVisibility(View.GONE);
-                                startActivity(new Intent(registerActivity.this, gameStartActivity.class));
-                            } else {
-                                Toast.makeText(registerActivity.this, "Failed to register!", Toast.LENGTH_LONG).show();
-                                progressBar.setVisibility(View.GONE);
-                            }
-                        }
-                    });
-
-                } else {
-                    Toast.makeText(registerActivity.this, "Failed to register!", Toast.LENGTH_LONG).show();
-                    progressBar.setVisibility(View.GONE);
-
+            public void onComplete(@NonNull Task<SignInMethodQueryResult> task) {
+                if (!task.getResult().getSignInMethods().isEmpty()) {
+                    email.setError("This email has been registered");
+                    email.requestFocus();
+                    return;
                 }
+
+
+                progressBar.setVisibility(View.VISIBLE);
+                mAuth.createUserWithEmailAndPassword(emailVal, pwd).addOnCompleteListener(registerActivity.this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+
+                        if (task.isSuccessful()) {
+                            gameUser user = new gameUser(name, pwd, emailVal, 0);
+                            FirebaseDatabase.getInstance().getReference().child("gameUsers").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(user).addOnCompleteListener(registerActivity.this, new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    if (task.isSuccessful()) {
+                                        Toast.makeText(registerActivity.this, "User has been registered successfully!", Toast.LENGTH_LONG).show();
+                                        progressBar.setVisibility(View.GONE);
+                                        startActivity(new Intent(registerActivity.this, gameStartActivity.class));
+                                    } else {
+                                        Toast.makeText(registerActivity.this, "Failed to register!", Toast.LENGTH_LONG).show();
+                                        progressBar.setVisibility(View.GONE);
+                                    }
+                                }
+                            });
+
+                        } else {
+                            Toast.makeText(registerActivity.this, "Failed to register!", Toast.LENGTH_LONG).show();
+                            progressBar.setVisibility(View.GONE);
+
+                        }
+                    }
+                });
             }
+
         });
 
     }
