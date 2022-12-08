@@ -19,7 +19,10 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.SignInMethodQueryResult;
 import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.List;
 
 import edu.northeastern.group33webapi.FinalProjectActivity;
 import edu.northeastern.group33webapi.R;
@@ -128,6 +131,14 @@ public class registerActivity extends AppCompatActivity implements View.OnClickL
         }
         if (!Patterns.EMAIL_ADDRESS.matcher(emailVal).matches()) {
             email.setError("Please provide valid email");
+            email.requestFocus();
+            return;
+        }
+
+        Task<SignInMethodQueryResult> signInMethods = mAuth.fetchSignInMethodsForEmail(emailVal);
+
+        if(!signInMethods.isSuccessful()){
+            email.setError("This email has been registered");
             email.requestFocus();
             return;
         }
