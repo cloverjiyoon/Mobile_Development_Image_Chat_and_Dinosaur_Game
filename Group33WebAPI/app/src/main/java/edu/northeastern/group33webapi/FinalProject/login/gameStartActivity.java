@@ -8,11 +8,12 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import edu.northeastern.group33webapi.FinalProject.Ranking.RankingActivity;
 import edu.northeastern.group33webapi.FinalProjectActivity;
 import edu.northeastern.group33webapi.R;
 
 public class gameStartActivity extends AppCompatActivity {
-    Button startGame;
+    Button startGame, showRanking;
     TextView HiScore;
     TopScore topScore;
 
@@ -23,15 +24,14 @@ public class gameStartActivity extends AppCompatActivity {
         setContentView(R.layout.activity_gamestartpage);
         topScore = new TopScore(this);
         startGame = (Button) findViewById(R.id.beginingGame);
-        HiScore = findViewById(R.id.TopScore);
+        showRanking = (Button) findViewById(R.id.showRank);
+//        HiScore = findViewById(R.id.TopScore);
 
-        if (String.valueOf(topScore.getTopScore()) == "") {
-            HiScore.setText("00000");
-        }else {
-            HiScore.setText(String.valueOf(topScore.getTopScore()));
-        }
-
-
+//        if (String.valueOf(topScore.getTopScore()) == "") {
+//            HiScore.setText("00000");
+//        }else {
+//            HiScore.setText(String.valueOf(topScore.getTopScore()));
+//        }
 
         startGame.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -40,5 +40,16 @@ public class gameStartActivity extends AppCompatActivity {
                 startActivity(intent);
             }
     });
+
+        showRanking.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), RankingActivity.class);
+                startActivity(intent);
+            }
+        });
+
+
+
     }
 }

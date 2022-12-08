@@ -23,22 +23,24 @@
         android:theme="@style/Theme.Group33WebAPI"
         tools:targetApi="31">
         <activity
-            android:name=".FinalProject.login.loginActivity"
+            android:name=".FinalProject.Ranking.RankingActivity"
             android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
         </activity>
+        <activity
+            android:name=".FinalProject.login.loginActivity"
+            android:exported="false"></activity>
         <activity
             android:name=".FinalProject.login.registerActivity"
-            android:exported="false">
-        </activity>
+            android:exported="false"></activity>
         <activity
             android:name=".FinalProject.login.forgetPasswordActivity"
-            android:exported="false">
-        </activity>
-
+            android:exported="false"></activity>
         <activity
             android:name=".FinalProject.login.gameStartActivity"
-            android:exported="false">
-        </activity>
+            android:exported="false"></activity>
 
         <service
             android:name=".Firebase.MyFirebaseMessagingService"
@@ -69,10 +71,6 @@
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
-
-
-
-
         <activity
             android:name=".FirebaseActivity"
             android:exported="false">

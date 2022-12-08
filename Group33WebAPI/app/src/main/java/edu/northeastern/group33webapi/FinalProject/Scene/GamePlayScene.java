@@ -16,11 +16,17 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import edu.northeastern.group33webapi.FinalProject.Constants;
 import edu.northeastern.group33webapi.FinalProject.GameObject.Dragon.Dragon;
 import edu.northeastern.group33webapi.FinalProject.GameObject.Obstacle.ObstacleManager;
 import edu.northeastern.group33webapi.FinalProject.Controller.GyroScopicController;
 import edu.northeastern.group33webapi.FinalProject.login.TopScore;
+import edu.northeastern.group33webapi.FinalProject.login.registerActivity;
 import edu.northeastern.group33webapi.FinalProjectActivity;
 
 public class GamePlayScene implements Scene {
@@ -153,8 +159,13 @@ public class GamePlayScene implements Scene {
 //            }
 //
         }
-
-
+        else {
+            if (dragon.score > dragon.prevScore){
+                DatabaseReference myDataBase = FirebaseDatabase.getInstance().getReference();
+                String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                myDataBase.child("gameUsers").child(userId).child("score").setValue(dragon.score);
+            }
+        }
     }
 
     @Override
