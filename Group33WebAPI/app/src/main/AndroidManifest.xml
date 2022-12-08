@@ -27,6 +27,11 @@
             android:exported="false">
         </activity>
         <activity
+            android:name=".FinalProject.login.registerActivity"
+            android:exported="false">
+        </activity>
+
+        <activity
             android:name=".FinalProject.login.gameStartActivity"
             android:exported="false">
         </activity>

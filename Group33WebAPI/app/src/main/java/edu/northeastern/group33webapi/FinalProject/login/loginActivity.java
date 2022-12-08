@@ -1,89 +1,97 @@
 package edu.northeastern.group33webapi.FinalProject.login;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+
+import edu.northeastern.group33webapi.FinalProjectActivity;
 import edu.northeastern.group33webapi.R;
 
-public class loginActivity extends AppCompatActivity {
+public class loginActivity extends AppCompatActivity implements View.OnClickListener {
 
-    EditText username, password, repassword;
-    Button signup, signin;
-    DBHelper DB;
+    private TextView register;
+    private EditText editTextEmail, editTextPassword;
+    private Button signIn;
+
+    private FirebaseAuth mAuth;
+    private ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        username = (EditText) findViewById(R.id.username);
-        password = (EditText) findViewById(R.id.password);
-        repassword = (EditText) findViewById(R.id.repassword);
-        signup = (Button) findViewById(R.id.btnsignup);
-        signin = (Button) findViewById(R.id.btnsignin);
-        DB = new DBHelper(this);
+        editTextEmail = (EditText) findViewById(R.id.email);
+        editTextPassword = (EditText) findViewById(R.id.password);
 
-        signup.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view) {
-                String user = username.getText().toString();
-                String pass = password.getText().toString();
-                String repass = repassword.getText().toString();
+        register = (TextView) findViewById(R.id.register);
+        register.setOnClickListener(this);
 
-                if(user.equals("") || pass.equals("") || repass.equals(""))
-                    Toast.makeText(loginActivity.this, "Please enter all the required fields", Toast.LENGTH_SHORT);
-                else{
-                    if(pass.equals(repass)){
-                        Boolean checkuser = DB.checkusername(user);
-                        if(checkuser == false){
-                            Boolean insert = DB.insertData(user, pass);
-                            if(insert == true){
-                                Toast.makeText(loginActivity.this, "Registered successfully", Toast.LENGTH_SHORT);
-                                Intent intent = new Intent(getApplicationContext(), gameStartActivity.class);
-                                startActivity(intent);
-                            }else{
-                                Toast.makeText(loginActivity.this, "Registration failed", Toast.LENGTH_SHORT);
+        signIn = (Button) findViewById(R.id.login);
+        signIn.setOnClickListener(this);
 
-                            }
-                        }else{
-                            Toast.makeText(loginActivity.this, "User already exists! Please log in directly.", Toast.LENGTH_SHORT);
-                        }
-                    }else{
-                        Toast.makeText(loginActivity.this, "Passwords not matching", Toast.LENGTH_SHORT);
+        mAuth = FirebaseAuth.getInstance();
 
-                    }
-                }
-            }
-        });
-        signin.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view) {
-                String user = username.getText().toString();
-                String pass = password.getText().toString();
-
-                if(user.equals("") || pass.equals(""))
-                    Toast.makeText(loginActivity.this, "Please enter all required fields", Toast.LENGTH_SHORT).show();
-                else{
-                    Boolean checkuserpass = DB.checkusernamepassword(user, pass);
-                    if(checkuserpass == true){
-                        Toast.makeText(loginActivity.this, "Sign in successfully", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(getApplicationContext(), gameStartActivity.class);
-                        startActivity(intent);
-                    }else{
-                        Toast.makeText(loginActivity.this, "Invalid Credentials", Toast.LENGTH_SHORT).show();
-
-                    }
-                }
-
-            }
-        });
-
-
+        progressBar = (ProgressBar) findViewById(R.id.progressBar);
+        progressBar.setVisibility(View.INVISIBLE);
     }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.register:
+                startActivity(new Intent(this, registerActivity.class));
+                break;
+            case R.id.login:
+                userLogin();
+                break;
+        }
+    }
+
+    private void userLogin() {
+        String email = editTextEmail.getText().toString().trim();
+        String password = editTextPassword.getText().toString().trim();
+
+        if (email.isEmpty()) {
+            editTextEmail.setError("Email is required!");
+            editTextEmail.requestFocus();
+            return;
+        }
+
+        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            editTextEmail.setError("Please enter a valid email!");
+            editTextEmail.requestFocus();
+        }
+
+        progressBar.setVisibility(View.VISIBLE);
+
+        mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(loginActivity.this, new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                progressBar.setVisibility(View.GONE);
+                if (task.isSuccessful()) {
+                    Toast.makeText(loginActivity.this, "log in successfully!", Toast.LENGTH_LONG).show();
+                    startActivity(new Intent(loginActivity.this, FinalProjectActivity.class));
+                } else {
+                    Toast.makeText(loginActivity.this, "Failed to login! Please check your credentials!", Toast.LENGTH_LONG).show();
+                }
+
+            }
+        });
+    }
+
 }
