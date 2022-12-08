@@ -92,7 +92,7 @@ public class loginActivity extends AppCompatActivity implements View.OnClickList
                 progressBar.setVisibility(View.GONE);
                 if (task.isSuccessful()) {
                     Toast.makeText(loginActivity.this, "log in successfully!", Toast.LENGTH_LONG).show();
-                    startActivity(new Intent(loginActivity.this, FinalProjectActivity.class));
+                    startActivity(new Intent(loginActivity.this, gameStartActivity.class));
                 } else {
                     Toast.makeText(loginActivity.this, "Failed to login! Please check your credentials!", Toast.LENGTH_LONG).show();
                 }

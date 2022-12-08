@@ -145,7 +145,7 @@ public class registerActivity extends AppCompatActivity implements View.OnClickL
                             if (task.isSuccessful()) {
                                 Toast.makeText(registerActivity.this, "User has been registered successfully!", Toast.LENGTH_LONG).show();
                                 progressBar.setVisibility(View.GONE);
-                                startActivity(new Intent(registerActivity.this, FinalProjectActivity.class));
+                                startActivity(new Intent(registerActivity.this, gameStartActivity.class));
                             } else {
                                 Toast.makeText(registerActivity.this, "Failed to register!", Toast.LENGTH_LONG).show();
                                 progressBar.setVisibility(View.GONE);
