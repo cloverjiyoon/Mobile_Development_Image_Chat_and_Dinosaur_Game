@@ -39,7 +39,7 @@ public class user_RecyclerViewAdapter extends RecyclerView.Adapter<user_Recycler
     @NonNull
     @Override
     public user_RecyclerViewAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        LayoutInflater inflater = LayoutInflater.from((Context) context);
+        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View view = inflater.inflate(R.layout.recycler_view_row, parent, false);
         return new user_RecyclerViewAdapter.MyViewHolder(view);
     }
