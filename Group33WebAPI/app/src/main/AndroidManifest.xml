@@ -30,6 +30,10 @@
             android:name=".FinalProject.login.registerActivity"
             android:exported="false">
         </activity>
+        <activity
+            android:name=".FinalProject.login.forgetPasswordActivity"
+            android:exported="false">
+        </activity>
 
         <activity
             android:name=".FinalProject.login.gameStartActivity"

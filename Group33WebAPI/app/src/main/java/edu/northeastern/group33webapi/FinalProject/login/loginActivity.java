@@ -23,7 +23,7 @@ import edu.northeastern.group33webapi.R;
 
 public class loginActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private TextView register;
+    private TextView register, forgetPassword;
     private EditText editTextEmail, editTextPassword;
     private Button signIn;
 
@@ -40,6 +40,9 @@ public class loginActivity extends AppCompatActivity implements View.OnClickList
 
         register = (TextView) findViewById(R.id.register);
         register.setOnClickListener(this);
+
+        forgetPassword = (TextView) findViewById(R.id.forgetPassword);
+        forgetPassword.setOnClickListener(this);
 
         signIn = (Button) findViewById(R.id.login);
         signIn.setOnClickListener(this);
@@ -59,6 +62,9 @@ public class loginActivity extends AppCompatActivity implements View.OnClickList
             case R.id.login:
                 userLogin();
                 break;
+            case R.id.forgetPassword:
+                startActivity(new Intent(this, forgetPasswordActivity.class));
+                break;
         }
     }
 
@@ -75,6 +81,7 @@ public class loginActivity extends AppCompatActivity implements View.OnClickList
         if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
             editTextEmail.setError("Please enter a valid email!");
             editTextEmail.requestFocus();
+            return;
         }
 
         progressBar.setVisibility(View.VISIBLE);
