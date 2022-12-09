@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Picture;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.view.GestureDetector;
@@ -170,7 +171,10 @@ public class GamePlayScene implements Scene {
 
     @Override
     public void draw(Canvas canvas) {
-        canvas.drawColor(Color.rgb(0, 135, 62));
+
+//        canvas.drawColor(Color.rgb(0, 135, 62));
+        canvas.drawPicture(Picture.);
+
         dragon.draw(canvas);
         obstacleManager.draw(canvas);
         Paint paint = new Paint();
