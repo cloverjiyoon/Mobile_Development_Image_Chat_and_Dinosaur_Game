@@ -48,7 +48,7 @@ public class user_RecyclerViewAdapter extends RecyclerView.Adapter<user_Recycler
     public void onBindViewHolder(@NonNull user_RecyclerViewAdapter.MyViewHolder holder, int position) {
         holder.username.setText(userArrayList.get(position).getUsername());
         holder.score.setText(String.valueOf(userArrayList.get(position).getScore()));
-        holder.imageView.setImageResource(R.drawable.avator);
+        holder.imageView.setImageResource(userArrayList.get(position).getImage());
     }
 
     @Override

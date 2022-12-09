@@ -174,7 +174,7 @@ public class GamePlayScene implements Scene {
         dragon.draw(canvas);
         obstacleManager.draw(canvas);
         Paint paint = new Paint();
-        paint.setTextSize(100);
+        paint.setTextSize(70);
         paint.setColor(Color.MAGENTA);
 
 

@@ -65,7 +65,7 @@ public class RankingActivity extends AppCompatActivity {
                     for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                         // Get a Set of the keys in the map.
                         HashMap user = (HashMap) snapshot.getValue();
-                        userArrayList.add(new gameUser(user.get("username").toString(), user.get("password").toString(), user.get("email").toString(), ((Long) Objects.requireNonNull(user.get("score"))).intValue()));
+                        userArrayList.add(new gameUser(user.get("username").toString(), user.get("password").toString(), user.get("email").toString(), ((Long) Objects.requireNonNull(user.get("score"))).intValue(), ((Long) Objects.requireNonNull(user.get("image"))).intValue()));
 
                     }
                     // Sort the list by last name using a custom Comparator.
