@@ -183,7 +183,7 @@ public class GamePlayScene implements Scene {
         if (gameOver) {
             drawCenterText(canvas, paint, "Game Over");
         }
-        if (gameState % 2 == 0) {
+        if (gameState % 2 == 0 && gameOver == false) {
             drawCenterText(canvas, paint, "PAUSE");
         }
     }
