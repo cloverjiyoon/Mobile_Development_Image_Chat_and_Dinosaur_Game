@@ -12,6 +12,7 @@ import android.graphics.Paint;
 import android.graphics.Picture;
 import android.graphics.Point;
 import android.graphics.Rect;
+import android.graphics.Typeface;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
@@ -67,7 +68,7 @@ public class GamePlayScene implements Scene {
         sceneManager = manager;
 
         //initialize the dragon player
-        dragon = new Dragon(new Rect(100, 100, 200, 200), Color.RED);
+        dragon = new Dragon(new Rect(100, 100, 270, 270), Color.RED);
 
         dragonPoint = new Point(Constants.SCREEN_WIDTH / 2, Constants.SCREEN_HEIGHT / 2);
         dragon.update(dragonPoint);
@@ -172,15 +173,16 @@ public class GamePlayScene implements Scene {
     @Override
     public void draw(Canvas canvas) {
 
-//        canvas.drawColor(Color.rgb(0, 135, 62));
-        canvas.drawPicture(Picture.);
+        canvas.drawColor(Color.rgb(0, 135, 62));
+
 
         dragon.draw(canvas);
         obstacleManager.draw(canvas);
         Paint paint = new Paint();
         paint.setTextSize(70);
-        paint.setColor(Color.MAGENTA);
-
+        paint.setColor(Color.YELLOW);
+        Typeface typeFace = paint.getTypeface();
+        paint.setTypeface(typeFace.create("Arial",typeFace.BOLD));
 
         drawTopLeftText(canvas, paint, "Score: " + dragon.score + "\n" + "Coins: " + dragon.coinNum + "\n" + "HP: " + dragon.HP);
 
