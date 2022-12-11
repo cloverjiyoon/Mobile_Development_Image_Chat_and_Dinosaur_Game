@@ -94,6 +94,7 @@ public class ObstacleManager {
         float speed = (float) Math.sqrt(1 + (startTime - initTime) / 1000.0) * Constants.SCREEN_HEIGHT / 10000.0f * 0.8f;
         for (Obstacle ob : obstacles) {
             ob.incrementY(speed * elapseTime);
+            ob.incrementX(speed * elapseTime);
 
         }
 

@@ -18,6 +18,7 @@ public class Obstacle implements GameObject {
     private Coin coin;
     private Rect wholeRect;
     private boolean hashit;
+    private float leftMovableDir = 1.0F;
 
     public void setHashit() {
         this.hashit = true;
@@ -40,6 +41,22 @@ public class Obstacle implements GameObject {
             this.coin.getRectangle().bottom += y;
         }
     }
+
+    public void incrementX(float x) {
+        if (rectLeft.right + x >= rectRight.left) {
+            leftMovableDir = -1F;
+        }
+        if (rectLeft.left <= 0){
+            leftMovableDir = 1F;
+        }
+
+        rectLeft.left = (int) (rectLeft.left+ leftMovableDir*x);
+        rectLeft.right = (int) (rectLeft.right+leftMovableDir*x);
+
+    }
+
+
+
 
     public Rect getRectangle() {
         return rectLeft;
