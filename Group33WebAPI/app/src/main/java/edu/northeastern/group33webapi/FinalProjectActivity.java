@@ -10,8 +10,10 @@ import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import edu.northeastern.group33webapi.FinalProject.Audio.Audio;
 import edu.northeastern.group33webapi.FinalProject.Constants;
 import edu.northeastern.group33webapi.FinalProject.GamePanel;
+import edu.northeastern.group33webapi.FinalProject.Scene.GamePlayScene;
 
 public class FinalProjectActivity extends AppCompatActivity {
     @Override
@@ -27,8 +29,9 @@ public class FinalProjectActivity extends AppCompatActivity {
         Constants.SCREEN_HEIGHT = dm.heightPixels;
         Constants.SCREEN_WIDTH = dm.widthPixels;
 
-
-        setContentView(new GamePanel(this));
+        Audio audio = new Audio(this);
+        GamePanel gp = new GamePanel(this, audio);
+        setContentView(gp);
 
     }
 

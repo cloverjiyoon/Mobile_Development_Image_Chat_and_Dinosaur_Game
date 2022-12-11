@@ -2,9 +2,12 @@ package edu.northeastern.group33webapi.FinalProject;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.media.MediaPlayer;
 import android.view.SurfaceHolder;
 
+import edu.northeastern.group33webapi.FinalProject.Scene.GamePlayScene;
 import edu.northeastern.group33webapi.FinalProject.Scene.SceneManager;
+import edu.northeastern.group33webapi.R;
 
 public class MainThread extends Thread {
     public static final int MAX_FPS = 30;
@@ -14,6 +17,7 @@ public class MainThread extends Thread {
     private boolean running;
     public static Canvas canvas;
     public Context context;
+
 
 //    public int gameState;
 
@@ -37,17 +41,24 @@ public class MainThread extends Thread {
         int frameCount = 0;
         long totalTime = 0;
         long targetTime = 1000 / MAX_FPS;
+        if (gamePanel.audio.isSoundOn) {
+            gamePanel.audio.bgm.setLooping(true);
+            gamePanel.audio.bgm.start();
+        }
 
         while (running) {
             startTime = System.nanoTime();
             canvas = null;
-
 
             try {
                 canvas = this.surfaceHolder.lockCanvas(null);
                 synchronized (surfaceHolder) {
                     this.gamePanel.update();
                     this.gamePanel.draw(canvas);
+                    GamePlayScene gamePlayScene = (GamePlayScene) gamePanel.sceneManager.getScenes().get(gamePanel.sceneManager.ACTIVE_SCENE);
+                    if (gamePlayScene.gameOver) {
+                        gamePanel.audio.bgm.stop();
+                    }
                 }
 
             } catch (Exception e) {

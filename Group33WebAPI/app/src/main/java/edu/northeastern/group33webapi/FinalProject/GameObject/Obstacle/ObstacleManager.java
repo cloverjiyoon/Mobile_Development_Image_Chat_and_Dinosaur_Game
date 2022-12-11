@@ -43,6 +43,7 @@ public class ObstacleManager {
         for (Obstacle ob : obstacles) {
             if (ob.dragonCollide(dragon) && !ob.isHashit()) {
                 ob.setHashit();
+                ob.color = Color.RED;
                 return true;
             }
         }
@@ -88,7 +89,7 @@ public class ObstacleManager {
         }
         int elapseTime = Constants.FT;
         startTime = System.currentTimeMillis();
-        float speed = (float) Math.sqrt(1 + (startTime - initTime) / 1000.0) * Constants.SCREEN_HEIGHT / 10000.0f;
+        float speed = (float) Math.sqrt(1 + (startTime - initTime) / 1000.0) * Constants.SCREEN_HEIGHT / 10000.0f * 0.8f;
         for (Obstacle ob : obstacles) {
             ob.incrementY(speed * elapseTime);
 

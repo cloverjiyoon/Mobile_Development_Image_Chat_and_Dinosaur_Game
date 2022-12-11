@@ -13,7 +13,7 @@ import edu.northeastern.group33webapi.FinalProject.GameObject.GameObject;
 
 public class Obstacle implements GameObject {
     private Rect rectLeft;
-    private int color;
+    public int color;
     private Rect rectRight;
     private Coin coin;
     private Rect wholeRect;

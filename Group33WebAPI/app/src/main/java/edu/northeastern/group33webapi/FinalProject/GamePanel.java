@@ -13,6 +13,7 @@ import android.view.SurfaceView;
 import androidx.annotation.NonNull;
 import androidx.core.view.MotionEventCompat;
 
+import edu.northeastern.group33webapi.FinalProject.Audio.Audio;
 import edu.northeastern.group33webapi.FinalProject.GameObject.Obstacle.ObstacleManager;
 import edu.northeastern.group33webapi.FinalProject.Scene.GamePlayScene;
 import edu.northeastern.group33webapi.FinalProject.Scene.SceneManager;
@@ -22,11 +23,12 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     private static final String DEBUG_TAG = "Gestures";
     private MainThread thread;
     SceneManager sceneManager;
+    Audio audio;
 
 
-    public GamePanel(Context context) {
+    public GamePanel(Context context, Audio audio) {
         super(context);
-
+        this.audio = audio;
 
         getHolder().addCallback(this);
 
@@ -34,10 +36,9 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 
         Constants.CURRENT_CONTEXT = context;
 
-        sceneManager = new SceneManager();
+        sceneManager = new SceneManager(audio);
 
         setFocusable(true);
-
 
     }
 
@@ -78,7 +79,6 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 
         int action = MotionEventCompat.getActionMasked(event);
         GamePlayScene gamePlayScene = (GamePlayScene) sceneManager.getScenes().get(sceneManager.ACTIVE_SCENE);
-
         switch (action) {
             case (MotionEvent.ACTION_DOWN):
                 Log.d(DEBUG_TAG, "Action was DOWN");

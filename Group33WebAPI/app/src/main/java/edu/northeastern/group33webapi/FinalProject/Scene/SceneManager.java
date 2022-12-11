@@ -4,13 +4,15 @@ import android.graphics.Canvas;
 
 import java.util.ArrayList;
 
+import edu.northeastern.group33webapi.FinalProject.Audio.Audio;
+
 public class SceneManager {
     private ArrayList<Scene> scenes = new ArrayList<>();
     public static int ACTIVE_SCENE;
 
-    public SceneManager() {
+    public SceneManager(Audio audio) {
         ACTIVE_SCENE = 0;
-        scenes.add(new GamePlayScene(this));
+        scenes.add(new GamePlayScene(this, audio));
     }
 
     public ArrayList<Scene> getScenes() {

@@ -29,6 +29,9 @@ public class Dragon implements GameObject{
     public int score;
     public int coinNum;
     public int HP;
+    public int collideObst;
+    public int collideCoin;
+    public int getExtraHP;
     private DatabaseReference myDataBase;
     public int prevScore;
     private String userId;
@@ -47,7 +50,7 @@ public class Dragon implements GameObject{
         this.coinNum = 0;
         this.HP = 3;
         this.prevScore = 0;
-
+        this.collideObst = 0;
         myDataBase = FirebaseDatabase.getInstance().getReference();
         userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 

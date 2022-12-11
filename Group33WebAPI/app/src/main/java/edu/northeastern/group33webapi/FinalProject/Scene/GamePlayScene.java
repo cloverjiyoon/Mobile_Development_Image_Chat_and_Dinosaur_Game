@@ -1,40 +1,28 @@
 package edu.northeastern.group33webapi.FinalProject.Scene;
 
-import static android.view.MotionEvent.ACTION_BUTTON_PRESS;
-
-import android.app.AlertDialog;
-import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Picture;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.Typeface;
+import android.media.MediaPlayer;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
-import android.view.View;
-import android.widget.Button;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
 
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import java.util.logging.Handler;
-
+import edu.northeastern.group33webapi.FinalProject.Audio.Audio;
 import edu.northeastern.group33webapi.FinalProject.Constants;
 import edu.northeastern.group33webapi.FinalProject.GameObject.Dragon.Dragon;
 import edu.northeastern.group33webapi.FinalProject.GameObject.Obstacle.ObstacleManager;
 import edu.northeastern.group33webapi.FinalProject.Controller.GyroScopicController;
 import edu.northeastern.group33webapi.FinalProject.login.TopScore;
-import edu.northeastern.group33webapi.FinalProject.login.registerActivity;
-import edu.northeastern.group33webapi.FinalProjectActivity;
 import edu.northeastern.group33webapi.R;
 
 public class GamePlayScene implements Scene {
@@ -45,7 +33,7 @@ public class GamePlayScene implements Scene {
 
     private ObstacleManager obstacleManager;
 
-    private boolean gameOver = false;
+    public boolean gameOver = false;
 
     private Rect r = new Rect();
 
@@ -61,6 +49,8 @@ public class GamePlayScene implements Scene {
     public Bitmap backGround2;
     public Bitmap backGround3;
 
+    public Audio audio;
+    boolean flag;
 
 //    private GestureDetector mGestureDetector;
 
@@ -74,11 +64,14 @@ public class GamePlayScene implements Scene {
         return obstacleManager;
     }
 
-    public GamePlayScene(SceneManager manager) {
+    public GamePlayScene(SceneManager manager, Audio audio) {
         obstacleManager = new ObstacleManager(400, 350, 75, Color.LTGRAY);
         sceneManager = manager;
 //        BitmapFactory bf = new BitmapFactory();
 //        this.backGround = bf.decodeResource(Constants.CURRENT_CONTEXT.getResources(), R.drawable.artboard11);
+
+        this.audio = audio;
+        flag = true;
 
         BitmapFactory bf1 = new BitmapFactory();
         this.backGround1 = bf1.decodeResource(Constants.CURRENT_CONTEXT.getResources(), R.drawable.b1);
@@ -88,7 +81,7 @@ public class GamePlayScene implements Scene {
         this.backGround3 = bf3.decodeResource(Constants.CURRENT_CONTEXT.getResources(), R.drawable.b3);
 
         //initialize the dragon player
-        dragon = new Dragon(new Rect(100, 100, 270, 270), Color.RED);
+        dragon = new Dragon(new Rect(100, 100, 200, 200), Color.RED);
 
         dragonPoint = new Point(Constants.SCREEN_WIDTH / 2, Constants.SCREEN_HEIGHT / 2);
         dragon.update(dragonPoint);
@@ -108,9 +101,13 @@ public class GamePlayScene implements Scene {
 
         // frameTime = System.currentTimeMillis();
         if (gameState % 2 == 0) {
+            audio.bgm.pause();
             return;
         }
         if (!gameOver) {
+            if (audio.isSoundOn) {
+                audio.bgm.start();
+            }
             if (frameTime < Constants.INIT_TIME)
                 frameTime = Constants.INIT_TIME;
             int elapsedTime = Constants.FT;
@@ -146,20 +143,48 @@ public class GamePlayScene implements Scene {
             dragon.update(dragonPoint);
             obstacleManager.update();
 
+
             if (obstacleManager.dragonCollide(dragon)) {
+                dragon.collideObst += 20;
                 dragon.HP--; // if dragon hit wall lost one HP
+
+                if (audio.isSoundOn) {
+                    audio.obstacleAudio.start();
+                }
+
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
                 if (dragon.HP == 0) {
                     gameOver = true; // GAME OVER
                 }
-//                top = dragon.score;
 
+//                top = dragon.score;
             }
             if (obstacleManager.coinCollide(dragon)) {
+                dragon.collideCoin += 20;
                 dragon.coinNum++;     // SCORE UPDATE BY PASS COIN
                 dragon.score += 50;     // SCORE UPDATE BY PASS COIN
-                if (dragon.coinNum == 100) {
-                    dragon.coinNum -= 100; // USE 100 COINS CHANGE ONE HP
+
+                if (audio.isSoundOn) {
+                    audio.coinAudio.start();
+                }
+
+                if (dragon.coinNum == 10) {
+                    dragon.getExtraHP += 20;
+                    dragon.coinNum -= 10; // USE 100 COINS CHANGE ONE HP
                     dragon.HP++;
+                    if (audio.isSoundOn) {
+                        audio.addHpAudio.start();
+                    }
+                    try {
+                        Thread.sleep(100);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
             ;
@@ -181,7 +206,11 @@ public class GamePlayScene implements Scene {
 //            }
 //
         }
-        else {
+        else if (flag){
+            flag = false;
+            if (audio.isSoundOn) {
+                audio.gameOverAudio.start();
+            }
             if (dragon.score > dragon.prevScore){
                 DatabaseReference myDataBase = FirebaseDatabase.getInstance().getReference();
                 String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
@@ -221,14 +250,27 @@ public class GamePlayScene implements Scene {
         Typeface typeFace = paint.getTypeface();
         paint.setTypeface(typeFace.create("Arial",typeFace.BOLD));
 
-        drawTopLeftText(canvas, paint, "Score: " + dragon.score + "\n" + "Coins: " + dragon.coinNum + "\n" + "HP: " + dragon.HP);
+        drawText(canvas, paint, "Score: " + dragon.score + "\n" + "Coins: " + dragon.coinNum + "\n" + "HP: " + dragon.HP, "topLeft");
 
         if (gameOver) {
-            drawCenterText(canvas, paint, "Game Over");
+            drawText(canvas, paint, "Game Over","center");
         }
         if (gameState % 2 == 0 && gameOver == false) {
-            drawCenterText(canvas, paint, "PAUSE");
+            drawText(canvas, paint, "PAUSE","center");
         }
+        if (dragon.collideObst > 0) {
+            dragon.collideObst--;
+            drawText(canvas, paint, "HP - 1", "higherCenter");
+        }
+        if (dragon.getExtraHP > 0) {
+            dragon.getExtraHP--;
+            drawText(canvas, paint, "You get an extra Hit Points", "lowerCenter");
+        }
+        if (dragon.collideCoin > 0) {
+            dragon.collideCoin--;
+            drawText(canvas, paint, "Got a coin!", "center");
+        }
+
     }
 
     @Override
@@ -239,25 +281,32 @@ public class GamePlayScene implements Scene {
 
 
     //draw the text "Game Over" in the center
-    private void drawCenterText(Canvas canvas, Paint paint, String text) {
-        paint.setTextAlign(Paint.Align.LEFT);
-        canvas.getClipBounds(r);
-        int cHeight = r.height();
-        int cWidth = r.width();
-        paint.getTextBounds(text, 0, text.length(), r);
-        float x = cWidth / 2f - r.width() / 2f - r.left;
-        float y = cHeight / 2f + r.height() / 2f - r.bottom;
-        canvas.drawText(text, x, y, paint);
-    }
-
-    private void drawTopLeftText(Canvas canvas, Paint paint, String text) {
+    private void drawText(Canvas canvas, Paint paint, String text, String position) {
         paint.setTextAlign(Paint.Align.LEFT);
         canvas.getClipBounds(r);
         int cHeight = r.height();
         int cWidth = r.width();
         paint.getTextBounds(text, 0, text.length(), r);
         float x = 0;
-        float y = r.height();
+        float y = 0;
+        switch (position) {
+            case "center":
+                x = cWidth / 2f - r.width() / 2f - r.left;
+                y = cHeight / 2f + r.height() / 2f - r.bottom;
+                break;
+            case "topLeft":
+                x = 0;
+                y = r.height();
+                break;
+            case "lowerCenter":
+                x = cWidth / 2f - r.width() / 2f - r.left;
+                y = cHeight / 2f - r.height() / 2f - r.bottom;
+                break;
+            case "higherCenter":
+                x = cWidth / 2f - r.width() / 2f - r.left;
+                y = cHeight / 2f + 2 * r.height() - r.bottom;
+                break;
+        }
         canvas.drawText(text, x, y, paint);
     }
 
