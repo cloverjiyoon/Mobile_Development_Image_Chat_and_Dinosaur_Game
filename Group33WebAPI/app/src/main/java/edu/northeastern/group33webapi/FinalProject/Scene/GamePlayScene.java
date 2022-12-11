@@ -17,11 +17,16 @@ import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.logging.Handler;
 
 import edu.northeastern.group33webapi.FinalProject.Constants;
 import edu.northeastern.group33webapi.FinalProject.GameObject.Dragon.Dragon;
@@ -30,6 +35,7 @@ import edu.northeastern.group33webapi.FinalProject.Controller.GyroScopicControll
 import edu.northeastern.group33webapi.FinalProject.login.TopScore;
 import edu.northeastern.group33webapi.FinalProject.login.registerActivity;
 import edu.northeastern.group33webapi.FinalProjectActivity;
+import edu.northeastern.group33webapi.R;
 
 public class GamePlayScene implements Scene {
     private Dragon dragon;
@@ -50,6 +56,11 @@ public class GamePlayScene implements Scene {
     private TopScore topScore;
 
     public int gameState = 1;
+//    public Bitmap backGround;
+    public Bitmap backGround1;
+    public Bitmap backGround2;
+    public Bitmap backGround3;
+
 
 //    private GestureDetector mGestureDetector;
 
@@ -66,6 +77,15 @@ public class GamePlayScene implements Scene {
     public GamePlayScene(SceneManager manager) {
         obstacleManager = new ObstacleManager(400, 350, 75, Color.LTGRAY);
         sceneManager = manager;
+//        BitmapFactory bf = new BitmapFactory();
+//        this.backGround = bf.decodeResource(Constants.CURRENT_CONTEXT.getResources(), R.drawable.artboard11);
+
+        BitmapFactory bf1 = new BitmapFactory();
+        this.backGround1 = bf1.decodeResource(Constants.CURRENT_CONTEXT.getResources(), R.drawable.b1);
+        BitmapFactory bf2 = new BitmapFactory();
+        this.backGround2 = bf2.decodeResource(Constants.CURRENT_CONTEXT.getResources(), R.drawable.b2);
+        BitmapFactory bf3 = new BitmapFactory();
+        this.backGround3 = bf3.decodeResource(Constants.CURRENT_CONTEXT.getResources(), R.drawable.b3);
 
         //initialize the dragon player
         dragon = new Dragon(new Rect(100, 100, 270, 270), Color.RED);
@@ -170,11 +190,28 @@ public class GamePlayScene implements Scene {
         }
     }
 
+    private void drawBackground(Canvas canvas) {
+        int width = canvas.getWidth();
+        int height = canvas.getHeight();
+
+        backGround1 = Bitmap.createScaledBitmap(backGround1,width,height,false);
+        backGround2 = Bitmap.createScaledBitmap(backGround2,width,height,false);
+        backGround3 = Bitmap.createScaledBitmap(backGround3,width,height,false);
+
+        canvas.drawBitmap(backGround1,0,0,null);
+        canvas.drawBitmap(backGround2,0,0,null);
+        canvas.drawBitmap(backGround3,0,0,null);
+    }
+
+
     @Override
     public void draw(Canvas canvas) {
 
-        canvas.drawColor(Color.rgb(0, 135, 62));
+        drawBackground(canvas);
 
+
+//        backGround = Bitmap.createScaledBitmap(backGround,width,height,false);
+//        canvas.drawBitmap(backGround,0,0,null);
 
         dragon.draw(canvas);
         obstacleManager.draw(canvas);
