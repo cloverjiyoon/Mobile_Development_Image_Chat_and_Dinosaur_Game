@@ -52,12 +52,12 @@ public class gameStartActivity extends AppCompatActivity {
         sound.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                // 处理用户点击开关时的事件
+
                 if (isChecked) {
-                    // 开关被打开
+
                     isSoundOn = true;
                 } else {
-                    // 开关被关闭
+
                     isSoundOn = false;
                 }
             }
