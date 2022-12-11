@@ -41,10 +41,10 @@ public class MainThread extends Thread {
         int frameCount = 0;
         long totalTime = 0;
         long targetTime = 1000 / MAX_FPS;
-        if (gamePanel.audio.isSoundOn) {
-            gamePanel.audio.bgm.setLooping(true);
-            gamePanel.audio.bgm.start();
-        }
+//        if (gamePanel.audio.isSoundOn) {
+//            gamePanel.audio.bgm.setLooping(true);
+//            gamePanel.audio.bgm.start();
+//        }
 
         while (running) {
             startTime = System.nanoTime();

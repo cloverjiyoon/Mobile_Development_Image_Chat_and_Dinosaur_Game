@@ -22,8 +22,8 @@ import edu.northeastern.group33webapi.FinalProject.Scene.SceneManager;
 public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     private static final String DEBUG_TAG = "Gestures";
     private MainThread thread;
-    SceneManager sceneManager;
-    Audio audio;
+    public SceneManager sceneManager;
+    public Audio audio;
 
 
     public GamePanel(Context context, Audio audio) {
@@ -82,8 +82,11 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
         switch (action) {
             case (MotionEvent.ACTION_DOWN):
                 Log.d(DEBUG_TAG, "Action was DOWN");
-                gamePlayScene.gameState++;
-                gamePlayScene.getObstacleManager().gameState++;
+                if (gamePlayScene.gameState == 2) {
+                    gamePlayScene.gameState = 1;
+                } else {
+                    gamePlayScene.gameState = 2;
+                }
                 return true;
             case (MotionEvent.ACTION_MOVE):
                 Log.d(DEBUG_TAG, "Action was MOVE");

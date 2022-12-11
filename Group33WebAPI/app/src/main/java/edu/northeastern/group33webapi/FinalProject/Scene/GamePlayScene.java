@@ -65,7 +65,7 @@ public class GamePlayScene implements Scene {
     }
 
     public GamePlayScene(SceneManager manager, Audio audio) {
-        obstacleManager = new ObstacleManager(400, 350, 75, Color.LTGRAY);
+        obstacleManager = new ObstacleManager(400, 350, 75, Color.LTGRAY,this);
         sceneManager = manager;
 //        BitmapFactory bf = new BitmapFactory();
 //        this.backGround = bf.decodeResource(Constants.CURRENT_CONTEXT.getResources(), R.drawable.artboard11);
@@ -258,6 +258,9 @@ public class GamePlayScene implements Scene {
         if (gameState % 2 == 0 && gameOver == false) {
             drawText(canvas, paint, "PAUSE","center");
         }
+//        drawText(canvas, paint, "State" + gameState,"center");
+
+
         if (dragon.collideObst > 0) {
             dragon.collideObst--;
             drawText(canvas, paint, "HP - 1", "higherCenter");

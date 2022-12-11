@@ -14,12 +14,12 @@ public class Audio {
     public MediaPlayer gameOverAudio;
     public boolean isSoundOn;
 
-    public Audio(Context context) {
+    public Audio(Context context, boolean isSoundOn) {
         this.bgm = MediaPlayer.create(context, R.raw.bgm);;
         this.obstacleAudio = MediaPlayer.create(context, R.raw.obstacle);;
         this.coinAudio = MediaPlayer.create(context, R.raw.coin);
         this.addHpAudio = MediaPlayer.create(context, R.raw.addhp);
         this.gameOverAudio = MediaPlayer.create(context, R.raw.gameover);
-        this.isSoundOn = true;
+        this.isSoundOn = isSoundOn;
     }
 }

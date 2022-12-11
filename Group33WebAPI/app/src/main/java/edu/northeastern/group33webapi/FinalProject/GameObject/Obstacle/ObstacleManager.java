@@ -24,13 +24,15 @@ public class ObstacleManager {
 
     private long startTime;
     private long initTime;
-    public int gameState = 1;
+    private GamePlayScene gamePlayScene;
 
-    public ObstacleManager(int playerGap, int obstacleGap, int obstacleHeight, int color) {
+
+    public ObstacleManager(int playerGap, int obstacleGap, int obstacleHeight, int color, GamePlayScene gamePlayScene) {
         this.playerGap = playerGap;
         this.obstacleGap = obstacleGap;
         this.obstacleHeight = obstacleHeight;
         this.color = color;
+        this.gamePlayScene = gamePlayScene;
 
         startTime = initTime = System.currentTimeMillis();
 
@@ -84,7 +86,7 @@ public class ObstacleManager {
         if (startTime < Constants.INIT_TIME)
             startTime = Constants.INIT_TIME;
 
-        if (gameState % 2 == 0) {
+        if ( this.gamePlayScene.gameState == 2) {
             return;
         }
         int elapseTime = Constants.FT;
