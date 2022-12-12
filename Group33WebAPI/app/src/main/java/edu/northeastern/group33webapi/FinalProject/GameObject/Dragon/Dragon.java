@@ -48,7 +48,7 @@ public class Dragon implements GameObject{
         this.color = color;
         this.score = 0;
         this.coinNum = 0;
-        this.HP = 3;
+        this.HP = 10;
         this.prevScore = 0;
         this.collideObst = 0;
         myDataBase = FirebaseDatabase.getInstance().getReference();

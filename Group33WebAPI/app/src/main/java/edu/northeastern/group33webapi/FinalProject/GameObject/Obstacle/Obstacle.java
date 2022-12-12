@@ -14,7 +14,6 @@ import edu.northeastern.group33webapi.FinalProject.GameObject.GameObject;
 public class Obstacle implements GameObject {
     private Rect rectLeft;
     public int color;
-    private Rect rectRight;
     private Coin coin;
     private Rect wholeRect;
     private boolean hashit;
@@ -32,8 +31,7 @@ public class Obstacle implements GameObject {
         rectLeft.top += y;
         rectLeft.bottom += y;
 
-        rectRight.top += y;
-        rectRight.bottom += y;
+
         wholeRect.top += y;
         wholeRect.bottom += y;
         if (this.coin != null) {
@@ -43,7 +41,7 @@ public class Obstacle implements GameObject {
     }
 
     public void incrementX(float x) {
-        if (rectLeft.right + x >= rectRight.left) {
+        if (rectLeft.right + x >= Constants.SCREEN_WIDTH) {
             leftMovableDir = -1F;
         }
         if (rectLeft.left <= 0){
@@ -65,7 +63,6 @@ public class Obstacle implements GameObject {
     public Obstacle(int rectHeight, int color, int startX, int startY, int playerGap) {
         this.rectLeft = new Rect(0, startY, startX, startY + rectHeight);
         this.color = color;
-        this.rectRight = new Rect(startX + playerGap, startY, Constants.SCREEN_WIDTH, startY + rectHeight);
         this.wholeRect = new Rect(0, startY, Constants.SCREEN_WIDTH, startY + rectHeight);
 
         int left = (int) (Math.random() *(Constants.SCREEN_WIDTH));
@@ -78,11 +75,7 @@ public class Obstacle implements GameObject {
         if (rectLeft.contains(dragon.getRectangle().left, dragon.getRectangle().top) ||
                 rectLeft.contains(dragon.getRectangle().right, dragon.getRectangle().top) ||
                 rectLeft.contains(dragon.getRectangle().right, dragon.getRectangle().bottom) ||
-                rectLeft.contains(dragon.getRectangle().left, dragon.getRectangle().bottom) ||
-                rectRight.contains(dragon.getRectangle().left, dragon.getRectangle().top) ||
-                rectRight.contains(dragon.getRectangle().right, dragon.getRectangle().top) ||
-                rectRight.contains(dragon.getRectangle().right, dragon.getRectangle().bottom) ||
-                rectRight.contains(dragon.getRectangle().left, dragon.getRectangle().bottom)
+                rectLeft.contains(dragon.getRectangle().left, dragon.getRectangle().bottom)
 
         ) {
             return true;
@@ -122,7 +115,6 @@ public class Obstacle implements GameObject {
         Paint paint = new Paint();
         paint.setColor(color);
         canvas.drawRect(rectLeft, paint);
-        canvas.drawRect(rectRight, paint);
         if (this.coin != null) {
             this.coin.draw(canvas);
         }
